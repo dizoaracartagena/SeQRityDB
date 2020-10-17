@@ -1,0 +1,47 @@
+# ventas N:1 empleados
+CREATE TABLE empleados (
+	EmpleadoID int(5) PRIMARY KEY,
+    FirstName varchar(5),
+    LastName varchar(25),
+    Sucursal varchar(25)
+); 
+
+CREATE TABLE ventas (
+	VentaID int(5),
+    CantidadTotal int(5),
+    TotVen decimal(5,2),
+    idEmpleado int(5)
+);
+
+ALTER TABLE ventas add foreign key(idEmpleado) references empleados(EmpleadoID);
+
+INSERT INTO empleados(EmpleadoID,FirstName,LastName,Sucursal) values(2880,'Julia','Pez','Perisur');
+INSERT INTO ventas(VentaID,CantidadTotal,TotVen,idEmpleado) values(6745,3,56.20,2881);
+
+SELECT * FROM empleados
+SELECT * FROM ventas
+
+# inventario N:1 materia prima
+
+CREATE TABLE materiaprima (
+	MatPrimID int(5) PRIMARY KEY,
+    ProvNom varchar(50),
+    ProvID int(5),
+    Cantidad int(5)
+);
+
+CREATE TABLE inventario (
+	InvID int(5) PRIMARY KEY,
+    CantInv int(5),
+    Precio decimal(6,2),
+    idMateria int(5) REFERENCES materiaprima(MatPrimID),
+    idVenta int(5) REFERENCES ventas(VentaID)
+);
+
+ALTER TABLE inventario add foreign key(idVenta) references ventas(VentaID);
+
+INSERT INTO materiaprima VALUES(7684,'Flora',8542,8);
+INSERT INTO inventario VALUES(8435,12,235.80,7682,45237);
+
+SELECT * FROM materiaprima;
+SELECT * FROM inventario;
